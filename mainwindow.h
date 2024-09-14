@@ -34,6 +34,8 @@ private slots:
     /// Обработчик клавиши "Преобразовать"
     void on_button_transform_clicked();
 
+    void on_checkBox_add_data_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<FileEditor> _fileEditor = nullptr;

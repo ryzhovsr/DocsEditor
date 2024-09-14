@@ -9,12 +9,16 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("Редактор документов");
+    this->setMaximumHeight(110);
 
     ui->comboBox_type_doc->addItem("ВКР бакалавра");
-    ui->comboBox_type_doc->addItem("Магистерсткая диссертация");
-    ui->comboBox_type_doc->addItem("Рецензия");
+    ui->comboBox_type_doc->addItem("Маг. диссертация");
+    ui->comboBox_type_doc->addItem("Рецензия на ВКР");
+    ui->comboBox_type_doc->addItem("Рецензия на маг. дисс.");
+    ui->comboBox_type_doc->addItem("Отзыв на ВКР");
+    ui->comboBox_type_doc->addItem("Отзыв на маг. дисс.");
 
-    ui->button_select_doc->setMinimumWidth(130);
+    //ui->button_select_doc->setMinimumWidth(130);
 
     ui->button_transform->setEnabled(false);
     ui->lineEdit_doc_name->setText("Название файла");
@@ -55,11 +59,25 @@ void MainWindow::on_button_transform_clicked()
     // Если объект редактора файлов создан и путь до файла установлен
     if (_fileEditor && !_fileEditor->getFilePath().isEmpty())
     {
+        if (ui->checkBox_add_data->isChecked())
+        {
+            _fileEditor->setFaculty(ui->lineEdit_faculty->text().toUpper().toStdWString());
+            _fileEditor->setDepartment(ui->lineEdit_department->text().toUpper().toStdWString());
+            _fileEditor->setTheme(ui->lineEdit_theme->text().toStdWString());
+            _fileEditor->setStudent(ui->lineEdit_student->text().toStdWString());
+            _fileEditor->setReviewer(ui->lineEdit_reviewer->text().toStdWString());
+            _fileEditor->setHeadOfWork(ui->lineEdit_headOfWork->text().toStdWString());
+            _fileEditor->setHeadOfDepartment(ui->lineEdit_headOfDepartment->text().toStdWString());
+        }
+
         switch(ui->comboBox_type_doc->currentIndex())
         {
         case FileEditor::ModeEdit::Bachelor_degree: _fileEditor->changeTemplateBachelorDegreeDoc(); break;
         case FileEditor::ModeEdit::Master_degree: _fileEditor->changeTemplateMasterDegreeDoc(); break;
-        case FileEditor::ModeEdit::Review: _fileEditor->changeReviewDoc(); break;
+        case FileEditor::ModeEdit::Review_VKR: _fileEditor->changeReviewDoc(true); break;
+        case FileEditor::ModeEdit::Review_MAG: _fileEditor->changeReviewDoc(false); break;
+        case FileEditor::ModeEdit::Recall_VKR: _fileEditor->changeRecallDoc(true); break;
+        case FileEditor::ModeEdit::Recall_MAG: _fileEditor->changeRecallDoc(false); break;
         default: break;
         }
     }
@@ -79,3 +97,18 @@ void MainWindow::on_button_transform_clicked()
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.exec();
 }
+
+void MainWindow::on_checkBox_add_data_clicked()
+{
+    if (ui->checkBox_add_data->isChecked())
+    {
+        this->setMinimumHeight(262);
+    }
+    else
+    {
+        this->setMinimumHeight(110);
+        this->setMaximumHeight(110);
+        this->resize(430, 110);
+    }
+}
+
