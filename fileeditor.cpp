@@ -16,6 +16,8 @@ void FileEditor::changeTemplateBachelorDegreeDoc()
     Utils::removeSpireDocWarning(source_text);
     sourceDoc->Close();
 
+    std::vector<std::string> splitSourceText = Utils::splitByKeywords(Utils::ws2s(source_text));
+
     // Создаём новый документ
     intrusive_ptr<Spire::Doc::Document> doc = new Spire::Doc::Document();
 
@@ -286,12 +288,28 @@ void FileEditor::changeTemplateBachelorDegreeDoc()
     title->AppendText(L"Введение\n");
     title->ApplyStyle(L"bold_style_14");
 
+    if (!splitSourceText.at(0).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[0]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
+
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
     title = section->AddParagraph();
     title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     title->AppendText(L"Глава 1.\n");
     title->ApplyStyle(L"bold_style_14");
+
+    if (!splitSourceText.at(1).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[1]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
 
     // Добавляем исходные данные с файла
     intrusive_ptr<Spire::Doc::Paragraph> sourceParagraph = section->AddParagraph();
@@ -304,12 +322,28 @@ void FileEditor::changeTemplateBachelorDegreeDoc()
     title->AppendText(L"Глава 2.\n");
     title->ApplyStyle(L"bold_style_14");
 
+    if (!splitSourceText.at(2).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[2]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
+
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
     title = section->AddParagraph();
     title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     title->AppendText(L"Глава 3.\n");
     title->ApplyStyle(L"bold_style_14");
+
+    if (!splitSourceText.at(3).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[3]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
 
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
@@ -346,6 +380,8 @@ void FileEditor::changeTemplateMasterDegreeDoc()
     std::wstring source_text = sourceDoc->GetText();
     Utils::removeSpireDocWarning(source_text);
     sourceDoc->Close();
+
+   std::vector<std::string> splitSourceText = Utils::splitByKeywords(Utils::ws2s(source_text));
 
     // Создаём новый документ
     intrusive_ptr<Spire::Doc::Document> doc = new Spire::Doc::Document();
@@ -617,12 +653,28 @@ void FileEditor::changeTemplateMasterDegreeDoc()
     title->AppendText(L"Введение\n");
     title->ApplyStyle(L"bold_style_14");
 
+    if (!splitSourceText.at(0).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[0]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
+
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
     title = section->AddParagraph();
     title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     title->AppendText(L"Глава 1.\n");
     title->ApplyStyle(L"bold_style_14");
+
+    if (!splitSourceText.at(1).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[1]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
 
     // Добавляем исходные данные с файла
     intrusive_ptr<Spire::Doc::Paragraph> sourceParagraph = section->AddParagraph();
@@ -635,6 +687,14 @@ void FileEditor::changeTemplateMasterDegreeDoc()
     title->AppendText(L"Глава 2.\n");
     title->ApplyStyle(L"bold_style_14");
 
+    if (!splitSourceText.at(2).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[2]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
+
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
     title = section->AddParagraph();
@@ -642,12 +702,28 @@ void FileEditor::changeTemplateMasterDegreeDoc()
     title->AppendText(L"Глава 3.\n");
     title->ApplyStyle(L"bold_style_14");
 
+    if (!splitSourceText.at(3).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[3]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
+
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
     title = section->AddParagraph();
     title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     title->AppendText(L"Заключение\n");
     title->ApplyStyle(L"bold_style_14");
+
+    if (!splitSourceText.at(4).empty())
+    {
+        title = section->AddParagraph();
+        title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+        title->AppendText(Utils::s2ws(splitSourceText[4]).c_str());
+        title->ApplyStyle(L"style_14");
+    }
 
     title->AppendBreak(Spire::Doc::BreakType::PageBreak);
 
