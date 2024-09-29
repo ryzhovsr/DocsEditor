@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_type_doc->addItem("Рецензия на маг. дисс.");
     ui->comboBox_type_doc->addItem("Отзыв на ВКР");
     ui->comboBox_type_doc->addItem("Отзыв на маг. дисс.");
+    ui->comboBox_type_doc->addItem("Учебное пособие");
 
     //ui->button_select_doc->setMinimumWidth(130);
 
@@ -78,6 +79,7 @@ void MainWindow::on_button_transform_clicked()
         case FileEditor::ModeEdit::Review_MAG: _fileEditor->changeReviewDoc(false); break;
         case FileEditor::ModeEdit::Recall_VKR: _fileEditor->changeRecallDoc(true); break;
         case FileEditor::ModeEdit::Recall_MAG: _fileEditor->changeRecallDoc(false); break;
+        case FileEditor::ModeEdit::Teaching_AID: _fileEditor->createTeachingAID(); break;
         default: break;
         }
     }

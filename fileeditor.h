@@ -16,6 +16,7 @@ public:
         Review_MAG, // Рецензия на маг. диссертацию
         Recall_VKR, // Отзыв на вкр
         Recall_MAG, // Отзыв на маг. диссертаци
+        Teaching_AID // Учебное пособие
     };
 
     /// Изменяет файл на шаблон ВКР бакалавра
@@ -27,8 +28,11 @@ public:
     /// Изменяет файл на шаблон рецензии
     void changeReviewDoc(bool isVKR);
 
-     /// Изменяет файл на шаблон отзыва
+    /// Изменяет файл на шаблон отзыва
     void changeRecallDoc(bool isVKR);
+
+    /// Создаёт учебное пособие
+    void createTeachingAID();
 
     /// Устанавливает путь до файла
     inline void setFilePath(const QString& iFilePath) { _filePath = iFilePath; }
@@ -79,38 +83,39 @@ public:
     inline std::wstring  getHeadOfDepartment() const { return _headOfDepartment; }
 
 private:
+    /// Методы добавляют стили для редактирования документа
 
-    /// Добавляет стандартный стиль для редактирования документа
     /// Times New Roman, 8
     void addStyleInDoc_8(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет титульный стиль для редактирования документа
+    /// Times New Roman, 10
+    void addStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc);
+
+    /// Times New Roman, 10
+    void addBoldStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc);
+
     /// Times New Roman, 12
     void addStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет титульный стиль для редактирования документа
     /// Times New Roman, 12, Bold
     void addBoldStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет стандартный стиль для редактирования документа
     /// Times New Roman, 14
     void addStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет стандартный стиль для редактирования документа
     /// Times New Roman, 14, Bold
     void addBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет стандартный стиль для редактирования документа
     /// Times New Roman, 14, Bold, подчеркнутый
     void addUnderlineBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет титульный стиль для редактирования документа
     /// Times New Roman, 16, подчеркнутый
     void addUnderlineStyleInDoc_16(intrusive_ptr<Spire::Doc::Document> doc);
 
-    /// Добавляет титульный стиль для редактирования документа
     /// Times New Roman, 18, Bold
     void addBoldStyleInDoc_18(intrusive_ptr<Spire::Doc::Document> doc);
+
+private:
 
     QString _filePath;
     QString _emblemPath = "C:/Main/Projects/DocsEditor/resources/emblem.png";

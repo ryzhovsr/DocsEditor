@@ -1034,6 +1034,79 @@ void FileEditor::changeRecallDoc(bool isVKR)
     doc->Dispose();
 }
 
+void FileEditor::createTeachingAID()
+{
+    // Читаем исходный файл и загружаем из него весь текст.
+    intrusive_ptr<Spire::Doc::Document> sourceDoc = new Spire::Doc::Document();
+    sourceDoc->LoadFromFile(_filePath.toStdWString().c_str());
+    std::wstring source_text = sourceDoc->GetText();
+    Utils::removeSpireDocWarning(source_text);
+    sourceDoc->Close();
+
+    // Создаём новый документ
+    intrusive_ptr<Spire::Doc::Document> doc = new Spire::Doc::Document();
+
+    // Добавляем стили для редактирования документа
+    addStyleInDoc_8(doc);
+    addStyleInDoc_10(doc);
+    addBoldStyleInDoc_10(doc);
+    addStyleInDoc_12(doc);
+    addBoldStyleInDoc_12(doc);
+    addStyleInDoc_14(doc);
+    addBoldStyleInDoc_14(doc);
+    addUnderlineBoldStyleInDoc_14(doc);
+    addUnderlineStyleInDoc_16(doc);
+    addBoldStyleInDoc_18(doc);
+
+    intrusive_ptr<Spire::Doc::Section> section = doc->AddSection();
+
+    // Настраиваем поля страницы
+    section->GetPageSetup()->GetMargins()->SetTop(56.7f);
+    section->GetPageSetup()->GetMargins()->SetLeft(85);
+    section->GetPageSetup()->GetMargins()->SetBottom(56.7f);
+    section->GetPageSetup()->GetMargins()->SetRight(42.5);
+
+    intrusive_ptr<Spire::Doc::Paragraph> text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Right);
+    text->AppendText(L"ПРОЕКТ");
+    text->ApplyStyle(L"style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"ТИТУЛ");
+    text->ApplyStyle(L"style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ "
+                     "ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ\n"
+                     "«Национальный исследовательский ядерный университет «МИФИ»");
+    text->ApplyStyle(L"style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Саровский физико-технический институт -\n"
+                     "филиал федерального государственного автономного образовательного учреждения\n"
+                     "высшего образования «Национальный исследовательский ядерный университет «МИФИ»");
+    text->ApplyStyle(L"style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"(СарФТИ НИЯУ МИФИ)");
+    text->AppendText(L"\n\n\n\n"
+                     "факультет\n"
+                     "Кафедра");
+    text->ApplyStyle(L"bold_style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"\n\n\n\n\n\n");
+    text->AppendText(L"ФИО\n");
+    text->ApplyStyle(L"bold_style_14");
+
+    doc->SaveToFile(_filePath.toStdWString().c_str(), Spire::Doc::FileFormat::Docx2019);
+    doc->Dispose();
+}
 
 void FileEditor::addStyleInDoc_8(intrusive_ptr<Spire::Doc::Document> doc)
 {
@@ -1042,6 +1115,26 @@ void FileEditor::addStyleInDoc_8(intrusive_ptr<Spire::Doc::Document> doc)
     standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
     standartStyle->GetCharacterFormat()->SetBold(false);
     standartStyle->GetCharacterFormat()->SetFontSize(8);
+    doc->GetStyles()->Add(standartStyle);
+}
+
+void FileEditor::addStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
+    standartStyle->SetName(L"style_10");
+    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    standartStyle->GetCharacterFormat()->SetBold(false);
+    standartStyle->GetCharacterFormat()->SetFontSize(10);
+    doc->GetStyles()->Add(standartStyle);
+}
+
+void FileEditor::addBoldStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
+    standartStyle->SetName(L"bold_style_10");
+    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    standartStyle->GetCharacterFormat()->SetBold(true);
+    standartStyle->GetCharacterFormat()->SetFontSize(10);
     doc->GetStyles()->Add(standartStyle);
 }
 
