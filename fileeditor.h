@@ -106,8 +106,17 @@ private:
     /// Times New Roman, 12, bold
     void addBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
+    /// Times New Roman, 12, italic
+    void addItalicStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 12, bold, blue
+    void addBoldBlueStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
     /// Times New Roman, 12, firstLineIndent 1.25
     void addIndentStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 12, bold, firstLineIndent 1.25
+    void addIndentBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
     /// Times New Roman, 14
     void addStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc);

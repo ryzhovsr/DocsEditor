@@ -1106,12 +1106,20 @@ void FileEditor::createTeachingAID()
     text = section->AddParagraph();
     text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     text->AppendText(L"или");
-    selection = doc->FindAllString(L"или", false, true);
+    selection = doc->FindAllString(L"или", true, true);
     text->ApplyStyle(L"style_10");
+    bool first = true;
 
     for (const auto& text: selection)
     {
-        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+        if (first)
+        {
+            first = false;
+        }
+        else
+        {
+            text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+        }
     }
 
     text = section->AddParagraph();
@@ -1216,14 +1224,466 @@ void FileEditor::createTeachingAID()
                      "практических занятий по курсам «…», «…», «…» … В пособии рассмотрены …, описаны "
                      "… классические и современные методы исследования .... Дано обоснование …, а также "
                      "приведена практическая часть ... Изложение материала систематизировано, иллюстрировано схемами, рисунками, таблицами.\n"
-                     "Пособие может быть полезно не только при преподавании курса «…», но и при изучении других инженерно-технических дисциплин…\n\n"
-                     "11.03.04 Электроника и наноэлектроника\n"
-                     "14.05.04 Электроника и автоматика физических установок\n"
-                     "15.04.05 Конструкторско-технологическое обеспечение машиностроительных производств\n");
+                     "Пособие может быть полезно не только при преподавании курса «…», но и при изучении других инженерно-технических дисциплин…\n\n");
     text->ApplyStyle(L"indent_style_12");
 
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"11.03.04 Электроника и наноэлектроника\n"
+                     "14.05.04 Электроника и автоматика физических установок\n"
+                     "15.04.05 Конструкторско-технологическое обеспечение машиностроительных производств\n\n\n");
+    text->ApplyStyle(L"style_12");
 
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"ФИО, к.т.н., в.н.с. РФЯЦ-ВНИИЭФ - надо указывать, если издание нашего вуза? доцент кафедры ОТДиЭ Саровского физико-технического института (СарФТИ) НИЯУ МИФИ\n");
+    selection = doc->FindAllString(L"в.н.с. РФЯЦ-ВНИИЭФ - надо указывать, если издание нашего вуза?", true, true);
+    text->ApplyStyle(L"indent_style_12");
 
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetRed());
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"Рецензент: научная степень, должность, место работы, ФИО\n"
+                     "(Рецензенты: … - если размещать в РИНЦ, то требуются два рецензента)\n\n");
+    text->ApplyStyle(L"indent_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"ISBN …. (присваивается издателем при регистрации данного труда)");
+    selection = doc->FindAllString(L"(присваивается издателем при регистрации данного труда)", true, true);
+    text->ApplyStyle(L"style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"\n\n\n\n"
+                     "Редактор … (ФИО)\n\n"
+                     "Подписано в печать (дата)           Формат …\n"
+                     "Объем …             Уч. изд. л. …            Тираж … экз.\n"
+                     "Изд. № …            Заказ № …\n"
+                     "\n"
+                     "Указать, где издано\n"
+                     "ФГУП «РФЯЦ-ВНИИЭФ» / НИЯУ МИФИ / СарФТИ НИЯУ МИФИ\n");
+    selection = doc->FindAllString(L"Указать, где издано", true, true);
+    text->ApplyStyle(L"style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+    }
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 3 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"ПРЕДИСЛОВИЕ (примерный образец)");
+    selection = doc->FindAllString(L"(примерный образец)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"\n"
+                     "Курс «…» изучается студентами большинства специальностей технических вузов"
+                     " как общеинженерная дисциплина. Курс закладывает основы профессиональных знаний и "
+                     "умений, позволяющих решать производственные, конструкторские и технологические "
+                     "задачи, связанные с оптимизацией выбора материалов и технологий изготовления изделий "
+                     "различного назначения.\n"
+                     "\n"
+                     "Роль данной дисциплины в подготовке инженеров различных специальностей может "
+                     "заметно отличаться. Однако любой выпускник технического вуза, независимо от "
+                     "специальности, должен иметь базовые представления о строении и свойствах как основных "
+                     "промышленных, так и специальных материалов, о методах их исследования и контроля. "
+                     "Изучение курсов по … должно дать студентам знания о закономерностях, определяющих "
+                     "…, основных характеристиках ….\n"
+                     "\n"
+                     "Курс делится на два модуля: модуль 1 - …; модуль 2 - .... Объектом изучения дисциплины являются ….\n"
+                     "\n"
+                     "Цель практикума – закрепить знания теоретических основ … и привить студентам "
+                     "навыки экспериментальной работы. В учебном пособии рассматриваются некоторые "
+                     "современные методы …, а также приборы для выполнения этих методов в лаборатории и "
+                     "для контроля в заводской практике. В Части 1 предлагаемого читателю пособия "
+                     "рассматриваются ….\n"
+                     "\n"
+                     "В настоящее время, учитывая возрастающую роль в учебном процессе доли научных "
+                     "исследований, в практикуме описаны работы, сделанные на базе …, применяемого в "
+                     "научных исследованиях кафедры общетехнических дисциплин и электроники (ОТДиЭ) "
+                     "СарФТИ НИЯУ МИФИ. В этих работах / По методическим разработкам к этим работам "
+                     "могут быть выполнены задания как чисто учебного, так и учебно-исследовательского "
+                     "характера. Новые лабораторные работы, включенные в практикум, относятся к таким "
+                     "интенсивно развивающимся разделам … как … и …\n");
+    selection = doc->FindAllString(L"(примерный образец)", true, true);
+    text->ApplyStyle(L"indent_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 4 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"СОДЕРЖАНИЕ (примерное оформление)");
+    selection = doc->FindAllString(L"(примерное оформление)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"\n"
+                     "\n"
+                     "Введение											5\n"
+                     "Раздел 1. Название										5\n"
+                     "Раздел 2. Название										11\n"
+                     "2.1. Название										11\n"
+                     "2.2. Название										15\n"
+                     "2.3. Название										15\n"
+                     "Раздел 3. Экспериментальная часть							18\n"
+                     "3.1. Название										18\n"
+                     "3.2. Название										20\n"
+                     "Раздел 4. Журнал практической части. Отчёт по практической работе		21\n"
+                     "Список источников (Рекомендуемая литература)					23\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 5 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"ВВЕДЕНИЕ (примерное оформление)");
+    selection = doc->FindAllString(L"(примерное оформление)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"\n"
+                     "Определение и оценка состояния поверхностного слоя материала, деталей машин и "
+                     "других объектов является важнейшим этапом в формировании эксплуатационных свойств "
+                     "в целом.  Современные технологические методы обработки поверхностей (плазменное "
+                     "напыление, CVD-процессы и др.) формируют новые свойства поверхности. Новые свойства "
+                     "заключаются в том, что образующийся на поверхности слой толщиной в субмикро- и нано- "
+                     "диапазонах представляет собой структуру, геометрические характеристики которой "
+                     "определяют физические свойства поверхности. В связи с этим необходимо и важно "
+                     "адекватно оценивать качество поверхности с высоким пространственным разрешением.\n"
+                     "\n"
+                     "Традиционные методы исследования поверхности, такие как рентгеновская "
+                     "дифракция, электронная оже-спектроскопия и др., позволяют получать интегральную по "
+                     "поверхности образца картину расположения атомов. Все эти методы работают в вакууме и "
+                     "позволяют разрешать детали нанометрового размера, но при этом возможно повреждение "
+                     "образца высокоэнергетическим пучком. Кроме того, они не дают информацию о высоте "
+                     "поверхностных деталей.\n"
+                     "\n"
+                     "Экстремально малые размеры объектов, которыми оперируют современные "
+                     "технологии / нанотехнологии, делают крайне затруднительной визуализацию объектов и "
+                     "процессов, протекающих с их участием. В распоряжении исследователя в настоящее время "
+                     "имеется достаточно богатый арсенал приборов, которые обеспечивают изображение "
+                     "исследуемой поверхности с нанометровым разрешением. К ним относятся: "
+                     "просвечивающий и сканирующий электронный, ближнепольный оптический, атомно-"
+                     "силовой и туннельный зондовые микроскопы. Из них наиболее доступным методом "
+                     "исследования, обеспечивающим при этом наивысшее разрешение (от ангстрема - у простых "
+                     "приборов до сотых долей ангстрема - у прецизионных микроскопов) является метод "
+                     "сканирующей зондовой микроскопии.\n"
+                     "\n"
+                     "Область сканирующей зондовой микроскопии (СЗМ) включает в себя несколько "
+                     "методик исследования поверхности. Одной из главных отличительных особенностей СЗМ "
+                     "является возможность получения информации о топографии, механических, электрических, "
+                     "магнитных свойствах поверхности с пространственным разрешением вплоть до атомного. "
+                     "В настоящее время СЗМ используется во многих научных направлениях и прикладных "
+                     "современных технологических разработках, став / являясь сегодня одним из самых "
+                     "распространенных в области исследования физики поверхности.\n");
+    text->ApplyStyle(L"indent_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 6 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"РАЗДЕЛ 1. (примерное оформление)\n"
+                     "\n"
+                     "Название раздела\n\n\n"
+                     "Рубрики (названия)\n");
+    selection = doc->FindAllString(L"(примерное оформление)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Рис. 1. Схема …\n"
+                     "\n"
+                     "Рис. 2. Изображение …\n"
+                     "\n"
+                     "Таблица 1. Данные проведенного исследования …\n"
+                     "\n"
+                     "Рис. 3. Схематичное изображение … : …\n"
+                     "\n"
+                     "\n"
+                     "\n"
+                     "Рис. 4. Формирование …\n"
+                     "\n"
+                     "Рис. 5. Схема работы …\n"
+                     "Обозначения: 1 – …; 2 – …; 3 – …; 4 – …\n"
+                     "\n");
+    text->ApplyStyle(L"style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"1. Нумерация сквозная по всему изданию, но отдельно сквозная - у рисунков/фото),\n"
+                     "отдельно сквозная - у таблиц)\n"
+                     "Или: \n"
+                     "2. Нумерация рисунков, таблиц, формул привязывается к номеру раздела (главы), в \n"
+                     "котором они находятся (например, Рис. 1.2; Табл. 3.8) – так у МИФИ\n"
+                     "Выбрать более удачный вариант\n");
+    text->ApplyStyle(L"bold_blue_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 7 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"РАЗДЕЛ 2.\n"
+                     "\n"
+                     "Название раздела\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Текст, рисунки, таблицы\n");
+    text->ApplyStyle(L"italic_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"2.1. Рубрика, название\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Текст, рисунки, таблицы\n");
+    text->ApplyStyle(L"italic_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"2.2. Рубрика, название\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Текст, рисунки, таблицы\n");
+    text->ApplyStyle(L"italic_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"2.3. Рубрика, название\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 8 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"РАЗДЕЛ 3.\n"
+                     "\n"
+                     "Экспериментальная часть\n"
+                     "\n"
+                     "3.1. Рубрика, название\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Текст, рисунки, таблицы\n");
+    text->ApplyStyle(L"italic_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"3.2. Обработка АСМ-изображений\n");
+    text->ApplyStyle(L"bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Текст, рисунки, таблицы\n\n");
+    text->ApplyStyle(L"italic_style_12");
+
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 9 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"РАЗДЕЛ 4. (примерное оформление)\n"
+                     "\n"
+                     "Журнал практической части. Отчёт по практической работе\n");
+    selection = doc->FindAllString(L"(примерное оформление)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    intrusive_ptr<Spire::Doc::Table> table = section->AddTable(true);
+    std::vector<std::wstring> header = { L"Студент", L"Группа", L"№ варианта задания" };
+    std::vector<std::vector<std::wstring>> data =
+    {
+        {L"", L"", L""},
+    };
+
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+    intrusive_ptr<Spire::Doc::TableRow> row = table->GetRows()->GetItemInRowCollection(0);
+    row->SetIsHeader(true);
+
+    for (size_t i = 0; i < header.size(); ++i)
+    {
+        intrusive_ptr<Spire::Doc::Paragraph> p1 = row->GetCells()->GetItemInCellCollection(i)->AddParagraph();
+        p1->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+        row->GetCells()->GetItemInCellCollection(i)->GetCellFormat()->SetVerticalAlignment(Spire::Doc::VerticalAlignment::Middle);
+        intrusive_ptr<Spire::Doc::TextRange> tR1 = p1->AppendText(header[i].c_str());
+        tR1->GetCharacterFormat()->SetFontName(L"Times New Roman");
+        tR1->GetCharacterFormat()->SetFontSize(12);
+        tR1->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n1. Название\n");
+    text->ApplyStyle(L"indent_bold_style_12");
+
+    header = { L"", L"", L"" };
+    data = { {L"", L"", L""} };
+    table = section->AddTable(true);
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n2. Информация о …\n");
+    text->ApplyStyle(L"indent_bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"2.1. Название");
+    text->ApplyStyle(L"indent_style_12");
+
+    header = { L"", L"", L"" };
+    data = { {L"", L"", L""} };
+    table = section->AddTable(true);
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n2.2. Название");
+    text->ApplyStyle(L"indent_style_12");
+
+    header = { L"", L"" };
+    data = { {L"", L"", L"", L""}, {L"", L"", L"", L""} };
+    table = section->AddTable(true);
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n2.3. Название");
+    text->ApplyStyle(L"indent_style_12");
+
+    header = { L"", L"", L"", L"" };
+    data = { {L"", L"", L"", L""}, {L"", L"", L"", L""}, {L"", L"", L"", L""}, {L"", L"", L"", L""} };
+    table = section->AddTable(true);
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n3. Заключение по результатам работы\n");
+    text->ApplyStyle(L"indent_bold_style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n"
+                     "1)"
+                     "\n"
+                     "\n"
+                     "2)"
+                     "\n"
+                     "\n"
+                     "3)"
+                     "\n"
+                     "\n");
+    text->ApplyStyle(L"style_12");
+
+    table = section->AddTable(true);
+    header = { L"Дата выполнения", L"Подпись студента", L"Работа выполнена - подпись преподавателя", L"Работа защищена - подпись преподавателя" };
+    data = { {L"", L"", L"", L""} };
+
+    table->ResetCells(static_cast<int>(data.size()) + 1, static_cast<int>(header.size()));
+    row = table->GetRows()->GetItemInRowCollection(0);
+    row->SetIsHeader(true);
+
+    for (size_t i = 0; i < header.size(); ++i)
+    {
+        intrusive_ptr<Spire::Doc::Paragraph> p1 = row->GetCells()->GetItemInCellCollection(i)->AddParagraph();
+        p1->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+        row->GetCells()->GetItemInCellCollection(i)->GetCellFormat()->SetVerticalAlignment(Spire::Doc::VerticalAlignment::Middle);
+        intrusive_ptr<Spire::Doc::TextRange> tR1 = p1->AppendText(header[i].c_str());
+        tR1->GetCharacterFormat()->SetFontName(L"Times New Roman");
+        tR1->GetCharacterFormat()->SetFontSize(12);
+        tR1->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 10 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Список источников / Рекомендуемая литература\n"
+                     "(название выбирается в зависимости от цели и задач автора)\n");
+    selection = doc->FindAllString(L"(название выбирается в зависимости от цели и задач автора)", true, true);
+    text->ApplyStyle(L"bold_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(false);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"1. Миронов В.Л. …: учебное пособие для студентов старших курсов вузов. - Нижний Новгород: ИФМ РАН, 2004. - 114 с.: ил. \n"
+                     "2. Арутюнов П.А. … / П.А. Арутюнов, А.Л. Толстихина, В.Н. Демидов // Заводская лаборатория. Диагностика материалов. 1999. № 9, том 65. С. 27-37.\n"
+                     "3. Модуль … …: справочное руководство. – СПб, 2019. -  528 с.: ил.\n"
+                     "4. Бавыкин О.Б. … …: учебное пособие / О.Б. Бавыкин, О.Ф. Вячеславова. - М.: МГМУ «МАМИ», 2018. – 74 с.: ил.");
+
+    text->ApplyStyle(L"style_12");
 
     doc->SaveToFile(_filePath.toStdWString().c_str(), Spire::Doc::FileFormat::Docx2019);
     doc->Dispose();
@@ -1295,11 +1755,40 @@ void FileEditor::addBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> 
     iDoc->GetStyles()->Add(style);
 }
 
+void FileEditor::addItalicStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"italic_style_12");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetItalic(true);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addBoldBlueStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_blue_style_12");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+    style->GetCharacterFormat()->SetBold(true);
+    iDoc->GetStyles()->Add(style);
+}
+
 void FileEditor::addIndentStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
     intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
     style->SetName(L"indent_style_12");
     style->GetParagraphFormat()->SetFirstLineIndent(35.5);
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addIndentBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"indent_bold_style_12");
+    style->GetParagraphFormat()->SetFirstLineIndent(35.5);
+    style->GetCharacterFormat()->SetBold(true);
     style->GetCharacterFormat()->SetFontName(L"Times New Roman");
     iDoc->GetStyles()->Add(style);
 }
@@ -1374,7 +1863,10 @@ void FileEditor::addAllStylesInDoc(const intrusive_ptr<Spire::Doc::Document> iDo
     addItalicStyleInDoc_11(iDoc);
     addStyleInDoc_12(iDoc);
     addBoldStyleInDoc_12(iDoc);
+    addIndentBoldStyleInDoc_12(iDoc);
     addIndentStyleInDoc_12(iDoc);
+    addItalicStyleInDoc_12(iDoc);
+    addBoldBlueStyleInDoc_12(iDoc);
     addStyleInDoc_14(iDoc);
     addBoldStyleInDoc_14(iDoc);
     addUnderlineBoldStyleInDoc_14(iDoc);
