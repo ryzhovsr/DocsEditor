@@ -31,7 +31,7 @@ public:
     /// Изменяет файл на шаблон отзыва
     void changeRecallDoc(bool isVKR);
 
-    /// Создаёт учебное пособие
+    /// Создать документ с учебным пособием
     void createTeachingAID();
 
     /// Устанавливает путь до файла
@@ -86,34 +86,49 @@ private:
     /// Методы добавляют стили для редактирования документа
 
     /// Times New Roman, 8
-    void addStyleInDoc_8(intrusive_ptr<Spire::Doc::Document> doc);
+    void addStyleInDoc_8(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
     /// Times New Roman, 10
-    void addStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc);
+    void addStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 10, blue
+    void addBlueStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
     /// Times New Roman, 10
-    void addBoldStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc);
+    void addBoldStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
     /// Times New Roman, 12
-    void addStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc);
+    void addStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
-    /// Times New Roman, 12, Bold
-    void addBoldStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc);
+    /// Times New Roman, 11, italic
+    void addItalicStyleInDoc_11(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 12, bold
+    void addBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 12, firstLineIndent 1.25
+    void addIndentStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
     /// Times New Roman, 14
-    void addStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
+    void addStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
-    /// Times New Roman, 14, Bold
-    void addBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
+    /// Times New Roman, 14, bold
+    void addBoldStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
-    /// Times New Roman, 14, Bold, подчеркнутый
-    void addUnderlineBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc);
+    /// Times New Roman, 14, bold, underline
+    void addUnderlineBoldStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
-    /// Times New Roman, 16, подчеркнутый
-    void addUnderlineStyleInDoc_16(intrusive_ptr<Spire::Doc::Document> doc);
+    /// Times New Roman, 16, underline
+    void addUnderlineStyleInDoc_16(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
-    /// Times New Roman, 18, Bold
-    void addBoldStyleInDoc_18(intrusive_ptr<Spire::Doc::Document> doc);
+    /// Times New Roman, 16, bold
+    void addBoldStyleInDoc_16(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Times New Roman, 18, bold
+    void addBoldStyleInDoc_18(const intrusive_ptr<Spire::Doc::Document> iDoc);
+
+    /// Добавляет все созданные стили в документ
+    void addAllStylesInDoc(const intrusive_ptr<Spire::Doc::Document> iDoc);
 
 private:
 

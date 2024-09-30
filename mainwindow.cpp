@@ -114,3 +114,23 @@ void MainWindow::on_checkBox_add_data_clicked()
     }
 }
 
+
+void MainWindow::on_comboBox_type_doc_currentIndexChanged(int index)
+{
+    if (index == FileEditor::ModeEdit::Bachelor_degree || index == FileEditor::ModeEdit::Master_degree)
+    {
+        ui->checkBox_add_data->setVisible(true);
+        ui->checkBox_add_data->setChecked(false);
+        this->setMinimumHeight(110);
+        this->setMaximumHeight(110);
+        this->resize(430, 110);
+    }
+    else
+    {
+        ui->checkBox_add_data->setVisible(false);
+        this->setMinimumHeight(75);
+        this->setMaximumHeight(75);
+        this->resize(430, 75);
+    }
+}
+

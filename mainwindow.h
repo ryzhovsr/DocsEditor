@@ -36,6 +36,8 @@ private slots:
 
     void on_checkBox_add_data_clicked();
 
+    void on_comboBox_type_doc_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<FileEditor> _fileEditor = nullptr;

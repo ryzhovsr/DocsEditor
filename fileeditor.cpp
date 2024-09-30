@@ -1036,27 +1036,9 @@ void FileEditor::changeRecallDoc(bool isVKR)
 
 void FileEditor::createTeachingAID()
 {
-    // Читаем исходный файл и загружаем из него весь текст.
-    intrusive_ptr<Spire::Doc::Document> sourceDoc = new Spire::Doc::Document();
-    sourceDoc->LoadFromFile(_filePath.toStdWString().c_str());
-    std::wstring source_text = sourceDoc->GetText();
-    Utils::removeSpireDocWarning(source_text);
-    sourceDoc->Close();
-
     // Создаём новый документ
     intrusive_ptr<Spire::Doc::Document> doc = new Spire::Doc::Document();
-
-    // Добавляем стили для редактирования документа
-    addStyleInDoc_8(doc);
-    addStyleInDoc_10(doc);
-    addBoldStyleInDoc_10(doc);
-    addStyleInDoc_12(doc);
-    addBoldStyleInDoc_12(doc);
-    addStyleInDoc_14(doc);
-    addBoldStyleInDoc_14(doc);
-    addUnderlineBoldStyleInDoc_14(doc);
-    addUnderlineStyleInDoc_16(doc);
-    addBoldStyleInDoc_18(doc);
+    addAllStylesInDoc(doc);
 
     intrusive_ptr<Spire::Doc::Section> section = doc->AddSection();
 
@@ -1074,13 +1056,14 @@ void FileEditor::createTeachingAID()
     text = section->AddParagraph();
     text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     text->AppendText(L"ТИТУЛ");
-    text->ApplyStyle(L"style_10");
+    text->ApplyStyle(L"blue_style_10");
 
     text = section->AddParagraph();
     text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
-    text->AppendText(L"МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ "
+    text->AppendText(L"МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ\n"
                      "ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ\n"
                      "«Национальный исследовательский ядерный университет «МИФИ»");
+    auto selection = doc->FindAllString(L"МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ\n", false, true);
     text->ApplyStyle(L"style_10");
 
     text = section->AddParagraph();
@@ -1093,7 +1076,7 @@ void FileEditor::createTeachingAID()
     text = section->AddParagraph();
     text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     text->AppendText(L"(СарФТИ НИЯУ МИФИ)");
-    text->AppendText(L"\n\n\n\n"
+    text->AppendText(L"\n\n\n\n\n"
                      "факультет\n"
                      "Кафедра");
     text->ApplyStyle(L"bold_style_10");
@@ -1102,110 +1085,300 @@ void FileEditor::createTeachingAID()
     text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
     text->AppendText(L"\n\n\n\n\n\n");
     text->AppendText(L"ФИО\n");
-    text->ApplyStyle(L"bold_style_14");
+    text->ApplyStyle(L"style_14");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"НАЗВАНИЕ");
+    text->ApplyStyle(L"bold_style_16");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"\n\nУчебное пособие для ... (подзаголовок)");
+    selection = doc->FindAllString(L"(подзаголовок)", false, true);
+    text->ApplyStyle(L"style_14");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"или");
+    selection = doc->FindAllString(L"или", false, true);
+    text->ApplyStyle(L"style_10");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Практикум по курсам\n"
+                     "«…», «…»");
+    text->ApplyStyle(L"style_14");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"или другое");
+    selection = doc->FindAllString(L"или другое", false, true);
+    text->ApplyStyle(L"style_10");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"\nЧасть 1");
+    text->ApplyStyle(L"style_14");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Описание лабораторных работ\n\n");
+    text->ApplyStyle(L"style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Утверждено Научно-методическим советом\n"
+                     "Саровского физико-технического института\n"
+                     "Национального исследовательского ядерного университета «МИФИ»\n"
+                     "(СарФТИ НИЯУ МИФИ)\n\n"
+                     "Рекомендовано Научно-методическим советом\n"
+                     "Саровского физико-технического института\n"
+                     "Национального исследовательского ядерного университета «МИФИ»\n"
+                     "(СарФТИ НИЯУ МИФИ) в качестве учебного пособия для студентов вузов\n"
+                     "\n\n\n\n\n");
+    text->ApplyStyle(L"italic_style_11");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"Саров 2024");
+    text->ApplyStyle(L"style_12");
+    text->AppendBreak(Spire::Doc::BreakType::PageBreak);
+
+    /////////// 2 страница ///////////
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
+    text->AppendText(L"\nОБОРОТ ТИТУЛА");
+    text->ApplyStyle(L"blue_style_10");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n"
+                     "УДК ...\n"
+                     "Авторский знак (по этим вопросам получить консультацию в библиотеке)\n");
+    selection = doc->FindAllString(L"(по этим вопросам получить консультацию в библиотеке)", false, true);
+    text->ApplyStyle(L"style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"Петров, Иван Иванович");
+    text->ApplyStyle(L"style_12");
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+
+    text->AppendText(L"Название работы: Практикум по курсам «…», «…»: Часть 1. - Саров, СарФТИ НИЯУ МИФИ, 2024. – 24 с.: ил.");
+    selection = doc->FindAllString(L"Название работы:", false, true);
+    text->ApplyStyle(L"indent_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Left);
+    text->AppendText(L"\n\nКлючевые слова:\n\n\n");
+    selection = doc->FindAllString(L"\n\nКлючевые слова:\n", false, true);
+    text->ApplyStyle(L"indent_style_12");
+
+    for (const auto& text: selection)
+    {
+        text->GetAsOneRange()->GetCharacterFormat()->SetBold(true);
+        text->GetAsOneRange()->GetCharacterFormat()->SetItalic(true);
+    }
+
+    text = section->AddParagraph();
+    text->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Justify);
+    text->AppendText(L"Учебно-методическое пособие предназначено … для подготовки и проведения "
+                     "практических занятий по курсам «…», «…», «…» … В пособии рассмотрены …, описаны "
+                     "… классические и современные методы исследования .... Дано обоснование …, а также "
+                     "приведена практическая часть ... Изложение материала систематизировано, иллюстрировано схемами, рисунками, таблицами.\n"
+                     "Пособие может быть полезно не только при преподавании курса «…», но и при изучении других инженерно-технических дисциплин…\n\n"
+                     "11.03.04 Электроника и наноэлектроника\n"
+                     "14.05.04 Электроника и автоматика физических установок\n"
+                     "15.04.05 Конструкторско-технологическое обеспечение машиностроительных производств\n");
+    text->ApplyStyle(L"indent_style_12");
+
+
+
 
     doc->SaveToFile(_filePath.toStdWString().c_str(), Spire::Doc::FileFormat::Docx2019);
     doc->Dispose();
 }
 
-void FileEditor::addStyleInDoc_8(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addStyleInDoc_8(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"style_8");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(false);
-    standartStyle->GetCharacterFormat()->SetFontSize(8);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"style_8");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetFontSize(8);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"style_10");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(false);
-    standartStyle->GetCharacterFormat()->SetFontSize(10);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"style_10");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetFontSize(10);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addBoldStyleInDoc_10(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addBlueStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"bold_style_10");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(true);
-    standartStyle->GetCharacterFormat()->SetFontSize(10);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"blue_style_10");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetFontSize(10);
+    style->GetCharacterFormat()->SetTextColor(Spire::Doc::Color::GetBlue());
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addBoldStyleInDoc_10(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"style_12");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(false);
-    standartStyle->GetCharacterFormat()->SetFontSize(12);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_style_10");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    style->GetCharacterFormat()->SetFontSize(10);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addBoldStyleInDoc_12(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"bold_style_12");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(true);
-    standartStyle->GetCharacterFormat()->SetFontSize(12);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"style_12");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetFontSize(12);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addItalicStyleInDoc_11(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"style_14");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(false);
-    standartStyle->GetCharacterFormat()->SetFontSize(14);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"italic_style_11");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetItalic(true);
+    style->GetCharacterFormat()->SetFontSize(11);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addBoldStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"bold_style_14");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(true);
-    standartStyle->GetCharacterFormat()->SetFontSize(14);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_style_12");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addUnderlineBoldStyleInDoc_14(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addIndentStyleInDoc_12(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"underline_bold_style_14");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(true);
-    standartStyle->GetCharacterFormat()->SetFontSize(14);
-    standartStyle->GetCharacterFormat()->SetUnderlineStyle(Spire::Doc::UnderlineStyle::Single);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"indent_style_12");
+    style->GetParagraphFormat()->SetFirstLineIndent(35.5);
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addUnderlineStyleInDoc_16(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"underline_style_16");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetUnderlineStyle(Spire::Doc::UnderlineStyle::Single);
-    standartStyle->GetCharacterFormat()->SetFontSize(16);
-
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"style_14");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetFontSize(14);
+    iDoc->GetStyles()->Add(style);
 }
 
-void FileEditor::addBoldStyleInDoc_18(intrusive_ptr<Spire::Doc::Document> doc)
+void FileEditor::addBoldStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc)
 {
-    intrusive_ptr<Spire::Doc::ParagraphStyle> standartStyle = new Spire::Doc::ParagraphStyle(doc);
-    standartStyle->SetName(L"bold_style_18");
-    standartStyle->GetCharacterFormat()->SetFontName(L"Times New Roman");
-    standartStyle->GetCharacterFormat()->SetBold(true);
-    standartStyle->GetCharacterFormat()->SetFontSize(18);
-    doc->GetStyles()->Add(standartStyle);
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_style_14");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    style->GetCharacterFormat()->SetFontSize(14);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addUnderlineBoldStyleInDoc_14(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"underline_bold_style_14");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    style->GetCharacterFormat()->SetFontSize(14);
+    style->GetCharacterFormat()->SetUnderlineStyle(Spire::Doc::UnderlineStyle::Single);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addUnderlineStyleInDoc_16(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"underline_style_16");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetUnderlineStyle(Spire::Doc::UnderlineStyle::Single);
+    style->GetCharacterFormat()->SetFontSize(16);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addBoldStyleInDoc_16(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_style_16");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    style->GetCharacterFormat()->SetFontSize(16);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addBoldStyleInDoc_18(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    intrusive_ptr<Spire::Doc::ParagraphStyle> style = new Spire::Doc::ParagraphStyle(iDoc);
+    style->SetName(L"bold_style_18");
+    style->GetCharacterFormat()->SetFontName(L"Times New Roman");
+    style->GetCharacterFormat()->SetBold(true);
+    style->GetCharacterFormat()->SetFontSize(18);
+    iDoc->GetStyles()->Add(style);
+}
+
+void FileEditor::addAllStylesInDoc(const intrusive_ptr<Spire::Doc::Document> iDoc)
+{
+    // Добавляем стили для редактирования документа
+    addStyleInDoc_8(iDoc);
+    addStyleInDoc_10(iDoc);
+    addBlueStyleInDoc_10(iDoc);
+    addBoldStyleInDoc_10(iDoc);
+    addItalicStyleInDoc_11(iDoc);
+    addStyleInDoc_12(iDoc);
+    addBoldStyleInDoc_12(iDoc);
+    addIndentStyleInDoc_12(iDoc);
+    addStyleInDoc_14(iDoc);
+    addBoldStyleInDoc_14(iDoc);
+    addUnderlineBoldStyleInDoc_14(iDoc);
+    addBoldStyleInDoc_16(iDoc);
+    addUnderlineStyleInDoc_16(iDoc);
+    addBoldStyleInDoc_18(iDoc);
 }
