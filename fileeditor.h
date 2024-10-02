@@ -142,7 +142,7 @@ private:
 private:
 
     QString _filePath;
-    QString _emblemPath = "C:/Main/Projects/DocsEditor/resources/emblem.png";
+    QString _emblemPath = "emblem.png";
 
     /// Факультет
     std::wstring _faculty;

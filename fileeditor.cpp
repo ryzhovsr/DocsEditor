@@ -132,7 +132,7 @@ void FileEditor::changeTemplateBachelorDegreeDoc()
     /// 2 страница ///
     title = section->AddParagraph();
     title->GetFormat()->SetHorizontalAlignment(Spire::Doc::HorizontalAlignment::Center);
-    title->AppendPicture(_emblemPath.toStdWString().c_str());
+    //title->AppendPicture(_emblemPath.toStdWString().c_str());
     title->AppendText(L"\nСАРОВСКИЙ ФИЗИКО-ТЕХНИЧЕСКИЙ ИНСТИТУТ\n"
                       "ФГАОУ ВО «НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ ЯДЕРНЫЙ УНИВЕРСИТЕТ «МИФИ»\n"
                       "\n\n\n");
