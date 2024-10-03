@@ -19,11 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_type_doc->addItem("Отзыв на маг. дисс.");
     ui->comboBox_type_doc->addItem("Учебное пособие");
 
-    //ui->button_select_doc->setMinimumWidth(130);
-
     ui->button_transform->setEnabled(false);
     ui->lineEdit_doc_name->setText("Название файла");
-    ui->lineEdit_doc_name->setStyleSheet("QLineEdit { color: rgba(255, 255, 255, 100); }");
 
     auto fileEditor = FileEditor();
     setFileEditor(fileEditor);
@@ -41,7 +38,6 @@ void MainWindow::on_button_select_doc_clicked()
     if (!filePath.isEmpty())
     {
         ui->lineEdit_doc_name->setText(Utils::extractFileName(filePath));
-        ui->lineEdit_doc_name->setStyleSheet("QLineEdit { color: rgba(255, 255, 255, 255); }");
         ui->button_transform->setEnabled(true);
 
         if (_fileEditor != nullptr)
@@ -89,7 +85,6 @@ void MainWindow::on_button_transform_clicked()
     ui->button_transform->setEnabled(false);
 
     ui->lineEdit_doc_name->setText("Название файла");
-    ui->lineEdit_doc_name->setStyleSheet("QLineEdit { color: rgba(255, 255, 255, 100); }");
 
     QMessageBox msgBox;
     // Устанавливаем иконку для сообщения
